@@ -1,8 +1,9 @@
 class ValidateForm {
   constructor() {
     this.form = document.querySelector('.form')
-    this.cpfField = document.querySelector('.cpf')
     this.userNameField = document.querySelector('.username')
+    this.cpfField = document.querySelector('.cpf')
+    this.emailField = document.querySelector('.email')
     this.passwordField = document.querySelector('.password')
     this.confirmPasswordField = document.querySelector('.confirm-password')
     this.formEvents()
@@ -27,11 +28,12 @@ class ValidateForm {
 
   validateFields() {
     const emptyFields = this.checkEmptyFields()
-    const cpfIsValid = this.validateCpfField()
     const userNameIsValid = this.validateUserNameField()
+    const cpfIsValid = this.validateCpfField()
+    const emailIsValid = this.validateEmailField()
     const passwordsIsValid = this.validatePasswordFields()
 
-    if (!emptyFields && cpfIsValid && userNameIsValid && passwordsIsValid) return true
+    if (!emptyFields && userNameIsValid && cpfIsValid && emailIsValid && passwordsIsValid) return true
     return false
   }
 
@@ -40,7 +42,7 @@ class ValidateForm {
     const formFields = [...document.querySelectorAll('form input')]
     
     formFields
-      .filter(field => field.value.length === 0)
+      .filter(field => field.value.trim().length === 0)
       .forEach(field => {
         const label = field.previousElementSibling.innerText
         this.createErrorMessage(`Campo ${label} não pode estar vazio`, field)
@@ -50,24 +52,11 @@ class ValidateForm {
     return emptyFields
   }
 
-  validateCpfField() {
-    const cpf = new ValidateCpf(this.cpfField.value)
-    
-    if(!cpf.cpfClean.length) return
-   
-    if(!cpf.validate()) {
-      this.createErrorMessage('CPF inválido', this.cpfField)
-      return false
-    }
-
-    return true
-  }
-
   validateUserNameField() {
     const userName = this.userNameField.value
     let userNameIsValid = true
     
-    if(!userName.length) return
+    if(!userName.trim().length) return
     
     if(!userName.match(/^[a-zA-Z0-9]+$/g)) {
       this.createErrorMessage('O usuário só poderá conter letras e ou números', this.userNameField)  
@@ -82,13 +71,44 @@ class ValidateForm {
     return userNameIsValid
   }
 
+  validateCpfField() {
+    const cpf = new ValidateCpf(this.cpfField.value.trim())
+    
+    if(!cpf.cpfClean.trim().length) return
+   
+    if(!cpf.validate()) {
+      this.createErrorMessage('CPF inválido', this.cpfField)
+      return false
+    }
+
+    return true
+  }
+
+  validateEmailField() {
+    let emailIsValid = true
+    const email = this.emailField.value
+
+    if(!email.trim().length) return
+
+    if(!email.includes('@')) {
+      this.createErrorMessage('Email inválido. Insira um "@"', this.emailField)
+      emailIsValid = false
+    }
+    else if(email.indexOf('@') === email.length - 1) {
+      this.createErrorMessage('Email inválido. Insira algo depois do "@"', this.emailField)
+      emailIsValid = false
+    }
+
+    return emailIsValid
+  }
+
   validatePasswordFields() {
     let passwordsIsValid = true
 
     const password = this.passwordField.value
     const confirmPassword = this.confirmPasswordField.value  
 
-    if(!password.length) return
+    if(!password.trim().length || !confirmPassword.trim().length) return
 
     if(password.length < 6 || password.length > 12) {
       this.createErrorMessage('A senha precisa ter entre 6 e 12 caracteres', this.passwordField)
