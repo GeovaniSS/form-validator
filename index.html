@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validador de Formulários</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <form action="" class="form">
+      <div class="form-validate">
+        <label for="first-name">Nome</label>
+        <input type="text" id="first-name" class="first-name" placeholder="Nome">
+      </div>
+
+      <div class="form-validate">
+        <label for="last-name">Sobrenome</label>
+        <input type="text" id="last-name" class="last-name" placeholder="Sobrenome">
+      </div>
+
+      <div class="form-validate">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" class="cpf" placeholder="Digite seu CPF">
+      </div>
+
+      <div class="form-validate">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" class="username" placeholder="Usuário">
+      </div>
+
+      <div class="form-validate">
+        <label for="password">Senha</label>
+        <input type="password" id="password" class="password" placeholder="Senha">
+      </div>
+
+      <div class="form-validate">
+        <label for="confirm-password">Confirmação de senha</label>
+        <input type="password" id="confirm-password" class="confirm-password" placeholder="Confirmar senha">
+      </div>
+      
+      <button class="send-form">Enviar</button>
+    </form>
+  </div>
+
+  <script src="./assets/js/validateCpf.js"></script>
+  <script src="./assets/js/validateForm.js"></script>
+</body>
+</html>
